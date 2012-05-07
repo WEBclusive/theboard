@@ -1,6 +1,6 @@
 body {
     background: #000000;
-    padding: 2em;
+    padding: 1.5em;
 }
 
 .clear {
@@ -25,14 +25,27 @@ body {
     width: 100%;
 }
 
-#board th.name {
-    text-align: left;
-    padding-left: 0.5em;
+#board .project {
+    float: left;
+    width: 50%;
 }
 
-#board td {
+#board #add-project {
+    float: left;
+    clear: left;
     font-size: 2.5em;
-    padding: 0.5em;
+    padding: 0 0.3em;
+    text-transform: uppercase;
+    color: rgba(100, 100, 100, 1.0);
+    text-shadow: 0 1px 0 #333;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#board .project .inner {
+    font-size: 2.5em;
+    padding: 0.3em 0.5em;
     text-transform: uppercase;
     text-shadow: 0 1px 0 #888;
     background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
@@ -40,60 +53,31 @@ body {
     border-radius: 0.2em;
 }
 
-#board td > span {
-    display: block;
-}
-
-#board td.name span {
-    float: left;
-}
-
-#board td.status,
-#board td.staging,
-#board td.production {
-    text-align: center;
-}
-
-#board td.status {
-    width: 20%;
-}
-
-#board tr.building td {
+#board .building .inner {
+    color: rgba(151, 171, 255, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
     background-image: -webkit-linear-gradient(bottom, rgb(26,26,56) 45%, rgb(33,33,63) 42%);
 }
 
-#board tr.building td.status {
-    color: rgba(151, 171, 255, 1.0);
-    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
-}
-
-#board tr.failure td {
-    background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
-    -webkit-animation: blink 1s ease-in-out;
-    -webkit-animation-iteration-count: infinite;
-}
-
-#board tr.failure td.status {
-    color: rgba(255, 88, 88, 1.0);
-    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
-}
-
-#board tr.success td.status {
+#board .success .inner {
     color: rgba(179, 255, 151, 1.0);
     text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(179, 255, 151, 0.8);
 }
 
-#board tr.unknown td.status {
+#board .failure .inner {
+    color: rgba(255, 88, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
+    background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
+    -webkit-animation: flash 1s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+}
+
+#board .unknown .inner {
     color: rgba(70, 70, 70, 1.0);
     text-shadow: 0 1px 0 #333;
 }
 
-#board td.staging,
-#board td.production {
-    width: 10%;
-}
-
-@-webkit-keyframes blink {
-    0%, 100% { background-image: none; background-color: rgb(56,26,26); }
-    50% { background-image: none; background-color: rgb(136,26,26); }
+@-webkit-keyframes flash {
+    0%, 100% { background-image: none; background-color: rgb(56,26,26); -webkit-transform: scale(1.0); }
+    50% { background-image: none; background-color: rgb(136,26,26); -webkit-transform: scale(0.9); }
 }​

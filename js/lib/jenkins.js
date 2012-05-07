@@ -5,18 +5,22 @@ var Jenkins = {
 
     // Retrieve project status
     updateProjectStatus: function(project) {
-        // Abort if there is no slug
-        if (project.slug === undefined || project.slug === '') {
-            return;
-        }
-
         // Fetch project info
         Meteor.http.get(
-            Jenkins.url + '/job/' + project.slug + '/api/json',
+            Jenkins.url + '/job/' + project.name + '/api/json',
             function (error, result) {
                 var data = Jenkins.parseResponseData(result);
                 if (data === false) {
                     return;
+                }
+
+                // Update project display name
+                if (data.property !== undefined && data.property instanceof Array) {
+                    for (var i in data.property) {
+                        if (data.property[i].wallDisplayName !== undefined && data.property[i].wallDisplayName !== null) {
+                            Projects.update({_id: project._id}, {$set: {displayName: data.property[i].wallDisplayName}});
+                        }
+                    }
                 }
 
                 // Fetch build info

@@ -10,24 +10,19 @@
 </body>
 
 <template name="board">
-    <table id="board">
-        <tr>
-            <th class="name">Project <a id="add-project">+</a></th>
-            <th class="status">Status</th>
-            <th class="staging">Staging</th>
-            <th class="production">Production</th>
-        </tr>
+    <div id="board">
         {{#each projects}}
             {{> project}}
         {{/each}}
-    </table>
+        <div id="add-project">+</div>
+        <div class="clear"></div>
+    </div>
 </template>
 
 <template name="project">
-<tr class="{{status}}">
-    <td class="name">{{name}}</td>
-    <td class="status"><div>{{status}}</div></td>
-    <td class="staging">{{staging}}</td>
-    <td class="production">{{production}}</td>
-</tr>
+<div class="project {{status}}">
+    <div class="inner">
+        <span class="displayName">{{displayName}}</span>
+    </div>
+</div>
 </template>
