@@ -10,6 +10,8 @@ if (Meteor.is_client) {
         'click #add-project': Board.create
     };
     Template.project.events = {
-        'click .displayName': Board.editName
+        'click .displayName': Board.editName,
+        'click .staging': Board.editStaging,
+        'click .production': Board.editProduction
     };
 }
