@@ -1,0 +1,4 @@
+// Configuration. Move to config.js.
+
+// URL to the Jenkins server without a traling slash
+Jenkins.url = 'http://jenkins.example.com:8000';

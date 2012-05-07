@@ -1,0 +1,90 @@
+#container {
+    font-family: 'Montserrat', Helvetica, sans-serif;
+    color: #ddd;
+    background-color: #333;
+    border: 1px solid #353A3B;
+    border-radius: 0.5em;
+    box-shadow: 0 0.2em 0.4em #000;
+    padding: 0.5em;
+}
+
+#add-project {
+    cursor: pointer;
+}
+
+#board {
+    width: 100%;
+}
+
+#board th.name {
+    text-align: left;
+    padding-left: 0.5em;
+}
+
+#board td {
+    font-size: 2.5em;
+    padding: 0.5em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#board td > span {
+    display: block;
+}
+
+#board td.name span {
+    float: left;
+}
+
+#board td.status,
+#board td.staging,
+#board td.production {
+    text-align: center;
+}
+
+#board td.status {
+    width: 20%;
+}
+
+#board tr.building td {
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,56) 45%, rgb(33,33,63) 42%);
+}
+
+#board tr.building td.status {
+    color: rgba(151, 171, 255, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+}
+
+#board tr.failure td {
+    background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
+    -webkit-animation: blink 1s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+}
+
+#board tr.failure td.status {
+    color: rgba(255, 88, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
+}
+
+#board tr.success td.status {
+    color: rgba(179, 255, 151, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(179, 255, 151, 0.8);
+}
+
+#board tr.unknown td.status {
+    color: rgba(70, 70, 70, 1.0);
+    text-shadow: 0 1px 0 #333;
+}
+
+#board td.staging,
+#board td.production {
+    width: 10%;
+}
+
+@-webkit-keyframes blink {
+    0%, 100% { background-image: none; background-color: rgb(56,26,26); }
+    50% { background-image: none; background-color: rgb(136,26,26); }
+}​

@@ -1,0 +1,33 @@
+<head>
+    <title>The Board</title>
+    <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div id="container">
+        {{> board}}
+    </div>
+</body>
+
+<template name="board">
+    <table id="board">
+        <tr>
+            <th class="name">Project <a id="add-project">+</a></th>
+            <th class="status">Status</th>
+            <th class="staging">Staging</th>
+            <th class="production">Production</th>
+        </tr>
+        {{#each projects}}
+            {{> project}}
+        {{/each}}
+    </table>
+</template>
+
+<template name="project">
+<tr class="{{status}}">
+    <td class="name">{{name}}</td>
+    <td class="status"><div>{{status}}</div></td>
+    <td class="staging">{{staging}}</td>
+    <td class="production">{{production}}</td>
+</tr>
+</template>
