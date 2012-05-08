@@ -7,7 +7,7 @@ body {
     clear: both;
 }
 
-#container {
+.container {
     font-family: 'Montserrat', Helvetica, sans-serif;
     color: #ddd;
     background-color: #333;
@@ -15,10 +15,7 @@ body {
     border-radius: 0.5em;
     box-shadow: 0 0.2em 0.4em #000;
     padding: 0.5em;
-}
-
-#board {
-    width: 100%;
+    margin-bottom: 1em;
 }
 
 #board .project {
@@ -97,6 +94,63 @@ body {
 
 #board .staging {
     color: #ffa;
+}
+
+#support table {
+    width: 100%;
+}
+
+#support td {
+    font-size: 2.1em;
+    padding: 0.3em 0.5em;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#support td.id {
+    padding-right: 0;
+}
+
+#support td.time,
+#support td.project {
+    font-size: 1.5em;
+    width: 1%;
+    white-space: nowrap;
+}
+
+#support .urgent td,
+#support .high td {
+    color: rgba(255, 88, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
+    background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
+}
+
+#support .low td {
+    color: rgba(151, 171, 255, 1.0);
+}
+
+#support .urgent .title {
+    -webkit-animation: flash 1s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+}
+
+#support .count {
+    float: left;
+    font-size: 2.1em;
+    padding: 0.3em 0.5em;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+    text-align: center;
+}
+
+#support .count span {
+    display: block;
+    font-size: 4em;
+    line-height: 1em;
 }
 
 @-webkit-keyframes flash {

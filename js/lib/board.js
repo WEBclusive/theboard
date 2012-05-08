@@ -8,6 +8,11 @@ var Board = {
         });
     },
 
+    // Update issues
+    updateIssues: function() {
+        Redmine.updateIssues();
+    },
+
     // Create a new project
     create: function() {
         var name = prompt('Specify the name used in Jenkins');

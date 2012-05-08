@@ -2,3 +2,5 @@
 
 // URL to the Jenkins server without a traling slash
 Jenkins.url = 'http://jenkins.example.com:8000';
+Redmine.url = 'http://redmine.example.com';
+Redmine.auth = 'username:password';

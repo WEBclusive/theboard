@@ -4,8 +4,11 @@
 </head>
 
 <body>
-    <div id="container">
+    <div class="container">
         {{> board}}
+    </div>
+    <div class="container">
+        {{> support}}
     </div>
 </body>
 
@@ -27,4 +30,25 @@
         <span class="displayName">{{displayName}}</span>
     </div>
 </div>
+</template>
+
+<template name="support">
+    <div id="support">
+        <table>
+            {{#each issues}}
+                {{> issue}}
+            {{/each}}
+        </table>
+        <div class="count"><span>{{count}}</span> issues</div>
+        <div class="clear"></div>
+    </div>
+</template>
+
+<template name="issue">
+    <tr class="{{priorityClass}}">
+        <td class="id">{{id}}</td>
+        <td class="title">{{title}}</td>
+        <td class="time">{{displayTime}}</td>
+        <td class="project">{{project}}</td>
+    </tr>
 </template>
