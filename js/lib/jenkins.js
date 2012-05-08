@@ -24,7 +24,7 @@ var Jenkins = {
                 }
 
                 // Fetch build info
-                Meteor.http.get(data.lastBuild.url + 'api/json', function(error, result) {
+                Meteor.http.get(Jenkins.url + '/job/' + project.name + '/' + data.lastBuild.number + '/api/json', function(error, result) {
                     var data = Jenkins.parseResponseData(result);
                     if (data === false) {
                         return;
