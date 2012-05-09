@@ -1,5 +1,6 @@
 <head>
     <title>The Board</title>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <link href="http://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet" type="text/css">
 </head>
 
@@ -34,13 +35,20 @@
 
 <template name="support">
     <div id="support">
-        <table>
+        <table class="counts">
+            <tr>
+                <td class="total"><span>{{count}}</span> issues</td>
+                <td class="urgent"><span>{{urgentCount}}</span> urgent</td>
+                <td class="high"><span>{{highCount}}</span> high</td>
+                <td class="normal"><span>{{normalCount}}</span> normal</td>
+                <td class="low"><span>{{lowCount}}</span> low</td>
+            </tr>
+        </table>
+        <table class="issues">
             {{#each issues}}
                 {{> issue}}
             {{/each}}
         </table>
-        <div class="count"><span>{{count}}</span> issues</div>
-        <div class="clear"></div>
     </div>
 </template>
 

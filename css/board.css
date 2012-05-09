@@ -110,7 +110,7 @@ body {
 }
 
 #support td.id {
-    padding-right: 0;
+    text-align: center;
 }
 
 #support td.time,
@@ -120,11 +120,16 @@ body {
     white-space: nowrap;
 }
 
-#support .urgent td,
-#support .high td {
+#support .urgent td {
     color: rgba(255, 88, 88, 1.0);
     text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
     background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
+}
+
+#support .high td {
+    color: rgba(245, 184, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(245, 184, 88, 0.8);
+    background-image: -webkit-linear-gradient(bottom, rgb(56,26,0) 45%, rgb(63,33,0) 42%);
 }
 
 #support .low td {
@@ -136,21 +141,35 @@ body {
     -webkit-animation-iteration-count: infinite;
 }
 
-#support .count {
-    float: left;
-    font-size: 2.1em;
-    padding: 0.3em 0.5em;
-    text-shadow: 0 1px 0 #888;
-    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
-    border: 1px solid #353A3B;
-    border-radius: 0.2em;
+#support .counts td {
     text-align: center;
 }
 
-#support .count span {
+#support .counts span {
     display: block;
-    font-size: 4em;
+    font-size: 2.6em;
+    line-height: 1.35em;
+}
+
+#support .counts .total span {
+    padding-top: 0;
+    font-size: 3.5em;
     line-height: 1em;
+}
+
+#support .counts td.urgent {
+    color: rgba(255, 88, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
+}
+
+#support .counts td.high {
+    color: rgba(245, 184, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(245, 184, 88, 0.8);
+}
+
+#support .counts td.low {
+    color: rgba(151, 171, 255, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
 }
 
 @-webkit-keyframes flash {
