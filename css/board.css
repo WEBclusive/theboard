@@ -115,15 +115,15 @@ body {
     border-radius: 0.2em;
 }
 
-#support td.id {
+#support td.id,
+#support td.time,
+#support td.project {
     text-align: center;
 }
 
 #support td.time,
 #support td.project {
     font-size: 1.5em;
-    width: 1%;
-    white-space: nowrap;
 }
 
 #support .urgent td {
@@ -149,6 +149,11 @@ body {
 
 #support .counts td {
     text-align: center;
+    width: 18%;
+}
+
+#support .counts td.total {
+    width: 28%;
 }
 
 #support .counts span {
