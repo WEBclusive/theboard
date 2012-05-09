@@ -6,14 +6,13 @@
 <body>
     <div class="container">
         {{> board}}
-    </div>
-    <div class="container">
         {{> support}}
     </div>
+    {{> toggle}}
 </body>
 
 <template name="board">
-    <div id="board">
+    <div id="board" style="display: {{display}}">
         {{#each projects}}
             {{> project}}
         {{/each}}
@@ -33,7 +32,7 @@
 </template>
 
 <template name="support">
-    <div id="support">
+    <div id="support" style="display: {{display}}">
         <table class="counts">
             <tr>
                 <td class="total"><span>{{count}}</span> issues</td>
@@ -58,4 +57,8 @@
         <td class="time">{{displayTime}}</td>
         <td class="project">{{project}}</td>
     </tr>
+</template>
+
+<template name="toggle">
+    <a id="toggle">toggle</a>
 </template>

@@ -4,6 +4,9 @@ if (Meteor.is_client) {
     Template.board.projects = function () {
         return Projects.find({}, {sort: {status: 1, displayName: 1}});
     };
+    Template.board.display = function () {
+        return Session.equals('toggled', 'board') ? 'block' : 'none';
+    };
 
     // Load issues
     Template.support.count = function () {
@@ -24,6 +27,9 @@ if (Meteor.is_client) {
     Template.support.issues = function () {
         return Issues.find({priority: {$in: [5, 6]}}, {sort: {priority: -1, time: -1}});
     };
+    Template.support.display = function () {
+        return Session.equals('toggled', 'board') ? 'none' : 'block';
+    };
 
     // Setup click events
     Template.board.events = {
@@ -33,5 +39,14 @@ if (Meteor.is_client) {
         'click .displayName': Board.editName,
         'click .staging': Board.editStaging,
         'click .production': Board.editProduction
+    };
+    Template.toggle.events = {
+        'click': function() {
+            if (Session.equals('toggled', 'board')) {
+                Session.set('toggled', 'support');
+            } else {
+                Session.set('toggled', 'board');
+            }
+        }
     };
 }
