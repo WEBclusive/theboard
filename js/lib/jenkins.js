@@ -44,6 +44,6 @@ var Jenkins = {
         if (result.statusCode !== 200) {
             return false;
         }
-        return eval('(' + result.content + ')');
+        return JSON.parse(result.content);
     }
 };
