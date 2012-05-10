@@ -59,7 +59,7 @@ var Redmine = {
         if (result.statusCode !== 200) {
             return false;
         }
-        return eval('(' + result.content + ')');
+        return JSON.parse(result.content);
     },
 
     // Create a relative date
