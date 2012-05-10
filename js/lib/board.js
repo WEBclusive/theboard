@@ -23,14 +23,14 @@ var Board = {
 
     // Prompt for a new name
     editName: function() {
-        var oldName = (this.name !== undefined) ? unescape(this.name) : '';
+        var oldName = (this.name !== undefined) ? decodeURI(this.name) : '';
         var name = prompt('Specify the name used in Jenkins. Clear it to REMOVE the project.', oldName);
         if (name === '') {
             Projects.remove({_id: this._id});
             return;
         }
         if (name !== null) {
-            Projects.update({_id: this._id}, {$set: {name: escape(name), displayName: name}});
+            Projects.update({_id: this._id}, {$set: {name: encodeURI(name), displayName: name}});
         }
     },
 
