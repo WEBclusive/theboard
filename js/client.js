@@ -31,6 +31,11 @@ if (Meteor.is_client) {
     Template.support.issues = function () {
         return Issues.find({priority: {$in: [5, 6]}}, {sort: {priority: -1, time: -1}});
     };
+    Template.support.newIssues = function () {
+        var since = new Date();
+        since.setDate(since.getDate() - 3);
+        return Issues.find({priority: {$nin: [5, 6]}, time: {$gt: since}}, {sort: {time: -1}});
+    };
     Template.support.display = function () {
         var toggled = Session.get('toggled');
         if (toggled === 'both' || toggled !== 'board') {

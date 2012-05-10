@@ -46,15 +46,18 @@
             {{#each issues}}
                 {{> issue}}
             {{/each}}
+            {{#each newIssues}}
+                {{> issue}}
+            {{/each}}
         </table>
     </div>
 </template>
 
 <template name="issue">
     <tr class="{{priorityClass}}">
-        <td class="id">{{id}}</td>
+        <td class="id">{{id}}<span class="assignee">{{assignee}}</span></td>
         <td class="title">{{title}}</td>
-        <td class="time">{{displayTime}}</td>
+        <td class="time">{{displayTime}}<span class="author">by {{author}}</span></td>
         <td class="project">{{project}}</td>
     </tr>
 </template>

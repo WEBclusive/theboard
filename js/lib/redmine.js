@@ -26,9 +26,11 @@ var Redmine = {
                         id: data.issues[i].id,
                         title: data.issues[i].subject,
                         project: data.issues[i].project.name,
+                        author: data.issues[i].author.name,
+                        assignee: (data.issues[i].assigned_to !== undefined) ? data.issues[i].assigned_to.name : '',
                         priority: data.issues[i].priority.id,
                         priorityClass: data.issues[i].priority.name.toLowerCase(),
-                        time: data.issues[i].created_on,
+                        time: new Date(data.issues[i].created_on),
                         displayTime: Redmine.createRelativeDateString(data.issues[i].created_on)
                     };
 
