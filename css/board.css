@@ -60,13 +60,11 @@ body {
     white-space: nowrap;
 }
 
-#board .building .inner {
-    background-image: -webkit-linear-gradient(bottom, rgb(26,26,56) 45%, rgb(33,33,63) 42%);
-}
-
 #board .building .inner .displayName {
     color: rgba(151, 171, 255, 1.0);
     text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+    -webkit-animation: highlight 1s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
 }
 
 #board .success .inner .displayName {
@@ -150,6 +148,8 @@ body {
 
 #support .low td {
     color: rgba(151, 171, 255, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,56) 45%, rgb(33,33,63) 42%);
 }
 
 #support .urgent .title {
@@ -196,4 +196,16 @@ body {
 @-webkit-keyframes flash {
     0%, 100% { background-image: none; background-color: rgb(56,26,26); -webkit-transform: scale(1.0); }
     50% { background-image: none; background-color: rgb(206, 76,76); -webkit-transform: scale(0.95); color: #fff; }
-}​
+}
+
+@-webkit-keyframes highlight {
+    0%, 100% {
+        color: #ddd;
+        text-shadow: none;
+    }
+    50% {
+        color: rgba(151, 171, 255, 1.0);
+        text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+        -webkit-transform: scale(1, 0.8);
+    }
+}
