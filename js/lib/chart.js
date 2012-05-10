@@ -7,97 +7,64 @@ var Chart = {
     options: {
         chart: {
             renderTo: 'chart',
-            type: 'line',
+            type: 'spline',
             animation: false,
-            backgroundColor: false
+            backgroundColor: null,
+            borderRadius: 0,
+            height: 200
         },
-        colors: [
-            '#FF5858',
-            '#DB843D',
-            '#fff',
-            '#4572A7'
-        ],
-        title: {
-            text: ''
-        },
+        colors: ['#4572A7', '#fff', '#DB843D', '#FF5858'],
+        title: { text: ''},
         xAxis: {
-            categories: [
-                '14',
-                '13',
-                '12',
-                '11',
-                '10',
-                '9',
-                '8',
-                '7',
-                '6',
-                '5',
-                '4',
-                '3',
-                '2',
-                '1',
-                'today'
-            ],
             lineWidth: 0,
-            labels: {
-                enabled: false
-            }
+            labels: { enabled: false },
+            tickWidth: 0
         },
         yAxis: {
-            title: {
-                text: ''
-            },
-            labels: {
-                enabled: false
-            },
+            title: { text: '' },
+            labels: { enabled: false },
             gridLineWidth: 1,
             gridLineColor: '#222',
             min: 0
         },
+        tooltip: {
+            backgroundColor: '#000',
+            borderWidth: 0,
+            style: { color: '#fff' },
+            formatter: function() { return this.y + ' issues'; }
+        },
         plotOptions: {
-            line: {
-                lineWidth: 3,
-                marker: {
-                    enabled: false
-                }
+            spline: {
+                lineWidth: 5,
+                marker: { symbol: 'circle', lineColor: null, lineWidth: 1 }
             }
         },
-        legend: {
-            enabled: false
-        },
-        credits: {
-            enabled: false
-        },
+        legend: { enabled: false },
+        credits: { enabled: false },
         series: [
-            {
-                name: 'Urgent',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            },
-            {
-                name: 'High',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            },
-            {
-                name: 'Normal',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            },
-            {
-                name: 'Low',
-                data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-            }
+            { name: 'Low', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+            { name: 'Normal', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+            { name: 'High', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+            { name: 'Urgent', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
         ]
     },
 
     // Setup the chart
     setup: function() {
         Chart.container = new Highcharts.Chart(Chart.options);
+        Meteor.autosubscribe(Chart.update);
     },
 
     // Update chart data
     update: function() {
-        Chart.container.series[0].setData([1, 0, 0, 1, 0, 0, 1, 1, 0, 0, 0, 2, 1, 1, 0]);
-        Chart.container.series[1].setData([1, 0, 1, 0, 3, 0, 2, 0, 0, 1, 2, 4, 1, 0, 1]);
-        Chart.container.series[2].setData([20, 21, 22, 19, 20, 23, 24, 25, 30, 32, 30, 22, 26, 20, 21]);
-        Chart.container.series[3].setData([10, 8, 7, 5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+        var counts = IssuesCountHistory.find({});
+        counts.forEach(function(priority) {
+            switch (priority.type) {
+                case 'low': Chart.container.series[0].setData(priority.counts); break;
+                case 'normal': Chart.container.series[1].setData(priority.counts); break;
+                case 'high': Chart.container.series[2].setData(priority.counts); break;
+                case 'urgent': Chart.container.series[3].setData(priority.counts); break;
+            }
+        });
     }
 };

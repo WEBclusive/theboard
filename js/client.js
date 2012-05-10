@@ -1,10 +1,10 @@
 // Initialize client side
 if (Meteor.is_client) {
     // Load projects
-    Template.board.projects = function () {
+    Template.builds.projects = function () {
         return Projects.find({}, {sort: {status: 1, displayName: 1}});
     };
-    Template.board.display = function () {
+    Template.builds.display = function () {
         var toggled = Session.get('toggled');
         if (toggled === 'both' || toggled === 'board') {
             return 'block';
@@ -45,7 +45,7 @@ if (Meteor.is_client) {
     };
 
     // Setup click events
-    Template.board.events = {
+    Template.builds.events = {
         'click #add-project': Board.create
     };
     Template.project.events = {
@@ -68,7 +68,4 @@ if (Meteor.is_client) {
 
     // Initialize issue chart
     Meteor.startup(Chart.setup);
-
-    // Update chart data
-    Meteor.setInterval(Chart.update, 5000);
 }

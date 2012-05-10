@@ -24,82 +24,6 @@ body {
     cursor: pointer;
 }
 
-#board .project {
-    float: left;
-    width: 50%;
-}
-
-#board #add-project {
-    float: left;
-    clear: left;
-    font-size: 1em;
-    padding: 0 0.3em;
-    text-transform: uppercase;
-    color: rgba(100, 100, 100, 1.0);
-    text-shadow: 0 1px 0 #333;
-    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
-    border: 1px solid #353A3B;
-    border-radius: 0.2em;
-    cursor: pointer;
-}
-
-#board .project .inner {
-    font-size: 2.5em;
-    padding: 0.3em 0.5em;
-    text-transform: uppercase;
-    text-shadow: 0 1px 0 #888;
-    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
-    border: 1px solid #353A3B;
-    border-radius: 0.2em;
-}
-
-#board .project .displayName {
-    display: block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-
-#board .building .inner .displayName {
-    color: rgba(151, 171, 255, 1.0);
-    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
-    -webkit-animation: highlight 1s ease-in-out;
-    -webkit-animation-iteration-count: infinite;
-}
-
-#board .success .inner .displayName {
-    color: rgba(179, 255, 151, 1.0);
-    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(179, 255, 151, 0.8);
-}
-
-#board .failure .inner {
-    background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
-    -webkit-animation: flash 1s ease-in-out;
-    -webkit-animation-iteration-count: infinite;
-}
-
-#board .failure .inner .displayName {
-    color: rgba(255, 88, 88, 1.0);
-    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
-}
-
-#board .unknown .inner .displayName {
-    color: rgba(70, 70, 70, 1.0);
-    text-shadow: 0 1px 0 #333;
-}
-
-#board .staging,
-#board .production {
-    float: right;
-    clear: right;
-    font-size: 0.6em;
-    line-height: 1em;
-}
-
-#board .staging {
-    color: #ffa;
-}
-
 #support table {
     width: 100%;
 }
@@ -191,6 +115,96 @@ body {
 #support .counts td.low {
     color: rgba(151, 171, 255, 1.0);
     text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+}
+
+#issuesChart {
+    padding: 2px;
+}
+
+#issuesChart .inner {
+    font-size: 2.5em;
+    padding: 0.9em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#builds .project {
+    float: left;
+    width: 50%;
+}
+
+#builds #add-project {
+    float: left;
+    clear: left;
+    font-size: 1em;
+    padding: 0 0.3em;
+    text-transform: uppercase;
+    color: rgba(100, 100, 100, 1.0);
+    text-shadow: 0 1px 0 #333;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+    cursor: pointer;
+}
+
+#builds .project .inner {
+    font-size: 2.5em;
+    padding: 0.3em 0.5em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#builds .project .displayName {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#builds .building .inner .displayName {
+    color: rgba(151, 171, 255, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+    -webkit-animation: highlight 1s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+}
+
+#builds .success .inner .displayName {
+    color: rgba(179, 255, 151, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(179, 255, 151, 0.8);
+}
+
+#builds .failure .inner {
+    background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
+    -webkit-animation: flash 1s ease-in-out;
+    -webkit-animation-iteration-count: infinite;
+}
+
+#builds .failure .inner .displayName {
+    color: rgba(255, 88, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
+}
+
+#builds .unknown .inner .displayName {
+    color: rgba(70, 70, 70, 1.0);
+    text-shadow: 0 1px 0 #333;
+}
+
+#builds .staging,
+#builds .production {
+    float: right;
+    clear: right;
+    font-size: 0.6em;
+    line-height: 1em;
+}
+
+#builds .staging {
+    color: #ffa;
 }
 
 @-webkit-keyframes flash {

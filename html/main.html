@@ -7,30 +7,10 @@
     <div class="container">
         {{> support}}
         {{> supportHistory}}
-        {{> board}}
+        {{> builds}}
     </div>
     {{> toggle}}
 </body>
-
-<template name="board">
-    <div id="board" style="display: {{display}}">
-        {{#each projects}}
-            {{> project}}
-        {{/each}}
-        <div id="add-project">+</div>
-        <div class="clear"></div>
-    </div>
-</template>
-
-<template name="project">
-<div class="project {{status}}">
-    <div class="inner">
-        <span class="staging">&nbsp;{{staging}}</span>
-        <span class="production">&nbsp;{{production}}</span>
-        <span class="displayName">{{displayName}}</span>
-    </div>
-</div>
-</template>
 
 <template name="support">
     <div id="support" style="display: {{display}}">
@@ -64,7 +44,29 @@
 </template>
 
 <template name="supportHistory">
-    <div id="chart"></div>
+    <div id="issuesChart">
+        <div class="inner"><div id="chart"></div></div>
+    </div>
+</template>
+
+<template name="builds">
+    <div id="builds" style="display: {{display}}">
+        {{#each projects}}
+            {{> project}}
+        {{/each}}
+        <div id="add-project">+</div>
+        <div class="clear"></div>
+    </div>
+</template>
+
+<template name="project">
+<div class="project {{status}}">
+    <div class="inner">
+        <span class="staging">&nbsp;{{staging}}</span>
+        <span class="production">&nbsp;{{production}}</span>
+        <span class="displayName">{{displayName}}</span>
+    </div>
+</div>
 </template>
 
 <template name="toggle">
