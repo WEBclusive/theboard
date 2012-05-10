@@ -1,17 +1,5 @@
 // Initialize client side
 if (Meteor.is_client) {
-    // Load projects
-    Template.builds.projects = function () {
-        return Projects.find({}, {sort: {status: 1, displayName: 1}});
-    };
-    Template.builds.display = function () {
-        var toggled = Session.get('toggled');
-        if (toggled === 'both' || toggled === 'board') {
-            return 'block';
-        }
-        return 'none';
-    };
-
     // Load issues
     Template.support.count = function () {
         return Issues.find().count();
@@ -36,12 +24,10 @@ if (Meteor.is_client) {
         since.setDate(since.getDate() - 3);
         return Issues.find({priority: {$nin: [5, 6]}, time: {$gt: since}}, {sort: {time: -1}});
     };
-    Template.support.display = function () {
-        var toggled = Session.get('toggled');
-        if (toggled === 'both' || toggled !== 'board') {
-            return 'block';
-        }
-        return 'none';
+
+    // Load projects
+    Template.builds.projects = function () {
+        return Projects.find({}, {sort: {status: 1, displayName: 1}});
     };
 
     // Setup click events
@@ -56,12 +42,21 @@ if (Meteor.is_client) {
     Template.toggle.events = {
         'click': function() {
             var toggled = Session.get('toggled');
-            if (toggled === 'board') {
+            if (toggled === undefined) {
+                $('#support').show();
+                $('#issuesChart').show();
+                $('#builds').hide();
                 Session.set('toggled', 'support');
             } else if (toggled === 'support') {
-                Session.set('toggled', 'both');
+                $('#support').hide();
+                $('#issuesChart').hide();
+                $('#builds').show();
+                Session.set('toggled', 'builds');
             } else {
-                Session.set('toggled', 'board');
+                $('#support').show();
+                $('#issuesChart').show();
+                $('#builds').show();
+                Session.set('toggled', undefined);
             }
         }
     };

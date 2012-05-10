@@ -13,7 +13,7 @@
 </body>
 
 <template name="support">
-    <div id="support" style="display: {{display}}">
+    <div id="support">
         <table class="counts">
             <tr>
                 <td class="total"><span>{{count}}</span> issues</td>
@@ -50,7 +50,7 @@
 </template>
 
 <template name="builds">
-    <div id="builds" style="display: {{display}}">
+    <div id="builds">
         {{#each projects}}
             {{> project}}
         {{/each}}

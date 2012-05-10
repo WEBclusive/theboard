@@ -66,5 +66,8 @@ var Chart = {
                 case 'urgent': Chart.container.series[3].setData(priority.counts); break;
             }
         });
+
+        // Load session var so we redraw when toggled
+        var toggled = Session.get('toggled');
     }
 };
