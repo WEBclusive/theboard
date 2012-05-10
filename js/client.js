@@ -65,4 +65,10 @@ if (Meteor.is_client) {
             }
         }
     };
+
+    // Initialize issue chart
+    Meteor.startup(Chart.setup);
+
+    // Update chart data
+    Meteor.setInterval(Chart.update, 5000);
 }

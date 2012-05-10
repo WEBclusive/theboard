@@ -6,6 +6,7 @@
 <body>
     <div class="container">
         {{> support}}
+        {{> supportHistory}}
         {{> board}}
     </div>
     {{> toggle}}
@@ -60,6 +61,10 @@
         <td class="time">{{displayTime}}<span class="author">by {{author}}</span></td>
         <td class="project">{{project}}</td>
     </tr>
+</template>
+
+<template name="supportHistory">
+    <div id="chart"></div>
 </template>
 
 <template name="toggle">
