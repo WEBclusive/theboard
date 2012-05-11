@@ -50,8 +50,41 @@ var Redmine = {
                 // haven't retrieved, they can be consider resolved.
                 // Remove them.
                 Issues.remove({id: {$nin: retrievedIds}});
+
+                // Update the counts
+                Redmine.updateIssueCounts();
             }
         );
+    },
+
+    // Update issue counts
+    updateIssueCounts: function() {
+        // Construct the counts object
+        var countsObject = {
+            date: Redmine.createCurrentDateString(),
+            low: Issues.find({priority: 3}).count(),
+            normal: Issues.find({priority: 4}).count(),
+            high: Issues.find({priority: 5}).count(),
+            urgent: Issues.find({priority: 6}).count()
+        };
+
+        // See if counts for this date exist already
+        var counts = IssuesCountHistory.findOne({date: countsObject.date});
+        if (counts !== undefined) {
+            IssuesCountHistory.update({date: countsObject.date}, countsObject);
+        } else {
+            IssuesCountHistory.insert(countsObject);
+        }
+
+        // Only keep around 14 days of counts
+        var i = 0;
+        var allCounts = IssuesCountHistory.find({}, {date: -1});
+        allCounts.forEach(function (counts) {
+            if (i >= 14) {
+                IssuesCountHistory.remove({_id: counts._id});
+            }
+            i++;
+        });
     },
 
     // Parse response JSON data
@@ -62,7 +95,22 @@ var Redmine = {
         return JSON.parse(result.content);
     },
 
-    // Create a relative date
+    // Create a current date string
+    createCurrentDateString: function() {
+        var now = new Date();
+        var year = now.getFullYear();
+        var month = now.getMonth() + 1;
+        var day = now.getDate();
+        if (month < 10) {
+            month = '0' + month;
+        }
+        if (day < 10) {
+            day = '0' + day;
+        }
+        return year + '-' + month + '-' + day;
+    },
+
+    // Create a relative date string
     createRelativeDateString: function(date) {
         var now = new Date();
         var then = new Date(date);
