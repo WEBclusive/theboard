@@ -179,6 +179,11 @@ body {
     text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(179, 255, 151, 0.8);
 }
 
+#builds .aborted .inner .displayName {
+    color: rgba(245, 184, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(245, 184, 88, 0.8);
+}
+
 #builds .failure .inner {
     background-image: -webkit-linear-gradient(bottom, rgb(56,26,26) 45%, rgb(63,33,33) 42%);
     -webkit-animation: flash 1s ease-in-out;
