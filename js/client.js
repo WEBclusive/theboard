@@ -42,7 +42,7 @@ if (Meteor.is_client) {
     Template.toggle.events = {
         'click': function() {
             var toggled = Session.get('toggled');
-            if (toggled === undefined) {
+            if (toggled === undefined || toggled === '') {
                 $('#support').show();
                 $('#issuesChart').show();
                 $('#builds').hide();
@@ -52,11 +52,11 @@ if (Meteor.is_client) {
                 $('#issuesChart').hide();
                 $('#builds').show();
                 Session.set('toggled', 'builds');
-            } else {
+            } else if (toggled === 'builds') {
                 $('#support').show();
                 $('#issuesChart').show();
                 $('#builds').show();
-                Session.set('toggled', undefined);
+                Session.set('toggled', '');
             }
         }
     };
