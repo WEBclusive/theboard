@@ -40,27 +40,12 @@ if (Meteor.is_client) {
         'click .production': Board.editProduction
     };
     Template.toggle.events = {
-        'click': function() {
-            var toggled = Session.get('toggled');
-            if (toggled === undefined || toggled === '') {
-                $('#support').show();
-                $('#issuesChart').show();
-                $('#builds').hide();
-                Session.set('toggled', 'support');
-            } else if (toggled === 'support') {
-                $('#support').hide();
-                $('#issuesChart').hide();
-                $('#builds').show();
-                Session.set('toggled', 'builds');
-            } else if (toggled === 'builds') {
-                $('#support').show();
-                $('#issuesChart').show();
-                $('#builds').show();
-                Session.set('toggled', '');
-            }
-        }
+        'click': Toggle.rotate
     };
 
-    // Initialize issue chart
+    // Initialize chart
     Meteor.startup(Chart.setup);
+
+    // Adjust the display based on current toggle setting
+    Meteor.setTimeout(Toggle.adjustDisplay, 1000);
 }
