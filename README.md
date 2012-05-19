@@ -10,20 +10,19 @@ Setting it up for development
 
 1. Install meteor if you haven't done so already
 
-    curl install.meteor.com | /bin/sh
+    `curl install.meteor.com | /bin/sh`
 
 2. Check out this project from GitHub and change current dir
 
-    git clone git@github.com:fvdb/theboard.git
-    cd theboard
+    `git clone git@github.com:fvdb/theboard.git && cd theboard`
 
 3. Copy the default configuration file into place
 
-    cp config.js.dist config.js
+    `cp config.js.dist config.js`
 
 3. After you've changed the configuration file, start meteor
 
-    meteor
+    `meteor`
 
 
 Running it in production
@@ -33,16 +32,16 @@ To run it in production, you need to have MongoDB and Node.js installed on your 
 
 1. Change into the directory wherever you checked out the project
 
-    cd theboard-src
+    `cd theboard-src`
 
 2. Tell meteor to create a production tarball
 
-    meteor bundle theboard.tgz
+    `meteor bundle theboard.tgz`
 
 3. Unpack the tarball in place where you're going to run it from. This will create a directory called "bundle."
 
-    cd ../ && tar -xvzf theboard-src/theboard.tgz
+    `cd ../ && tar -xvzf theboard-src/theboard.tgz`
 
 4. Start Node.js, specifying the port it should run on and where it can find MongoDB
 
-    PORT=3000 MONGO_URL=mongodb://localhost:27017/theboard node bundle/main.js &
+    `PORT=3000 MONGO_URL=mongodb://localhost:27017/theboard node bundle/main.js &`
