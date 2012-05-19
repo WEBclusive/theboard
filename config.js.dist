@@ -2,5 +2,9 @@
 
 // URL to the Jenkins server without a traling slash
 Jenkins.url = 'http://jenkins.example.com:8000';
+
+// URL to Redmine without the trailing slash
 Redmine.url = 'http://redmine.example.com';
+
+// Redmine HTTP auth needed
 Redmine.auth = 'username:password';
