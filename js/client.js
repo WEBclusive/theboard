@@ -39,13 +39,7 @@ if (Meteor.is_client) {
         'click .staging': Board.editStaging,
         'click .production': Board.editProduction
     };
-    Template.toggle.events = {
-        'click': Toggle.rotate
-    };
 
     // Initialize chart
     Meteor.startup(Chart.setup);
-
-    // Adjust the display based on current toggle setting
-    Meteor.setTimeout(Toggle.adjustDisplay, 1000);
 }
