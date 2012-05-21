@@ -8,7 +8,7 @@ var Redmine = {
     updateIssues: function() {
         // Fetch all issues that should be displayed
         Meteor.http.get(
-            Redmine.url + '/issues.json?status_id=open&amp;limit=5000',
+            Redmine.url + '/issues.json?' + Redmine.filter,
             {auth: Redmine.auth},
             function (error, result) {
                 var data = Redmine.parseResponseData(result);

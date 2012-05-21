@@ -8,3 +8,6 @@ Redmine.url = 'http://redmine.example.com';
 
 // Redmine HTTP auth needed
 Redmine.auth = 'username:password';
+
+// Redmine API issues filter
+Redmine.filter = 'status_id=open&amp;limit=5000';
