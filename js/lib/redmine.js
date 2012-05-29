@@ -78,7 +78,7 @@ var Redmine = {
 
         // Only keep around 14 days of counts
         var i = 0;
-        var allCounts = IssuesCountHistory.find({}, {date: -1});
+        var allCounts = IssuesCountHistory.find({}, {sort: {date: -1}});
         allCounts.forEach(function (counts) {
             if (i >= 14) {
                 IssuesCountHistory.remove({_id: counts._id});

@@ -64,7 +64,7 @@ var Chart = {
         var urgentData = [];
 
         // Construct chart data from database
-        var counts = IssuesCountHistory.find({}, {date: 1});
+        var counts = IssuesCountHistory.find({}, {sort: {date: 1}});
         counts.forEach(function(count) {
             lowData.push(count.low);
             normalData.push(count.normal);
