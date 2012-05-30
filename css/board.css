@@ -212,6 +212,34 @@ body {
     color: #ffa;
 }
 
+#connectivity {
+    color: #777;
+    font-size: 0.8em;
+}
+
+#connectivity .waiting {
+    color: rgba(255, 88, 88, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(255, 88, 88, 0.8);
+}
+
+#connectivity .connecting {
+    color: rgba(151, 171, 255, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(151, 171, 255, 0.8);
+}
+
+#connectivity .connected {
+    color: rgba(179, 255, 151, 1.0);
+    text-shadow: 0px -1px 0px #000, 0px 0px 5px rgba(179, 255, 151, 0.8);
+}
+
+#connectivity .reconnect {
+    display: block;
+}
+
+#connectivity .reconnect span {
+    color: #ddd;
+}
+
 @-webkit-keyframes flash {
     0%, 100% { background-image: none; background-color: rgb(56,26,26); -webkit-transform: scale(1.0); }
     50% { background-image: none; background-color: rgb(206, 76,76); -webkit-transform: scale(0.95); color: #fff; }

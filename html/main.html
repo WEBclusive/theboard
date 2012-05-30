@@ -5,12 +5,11 @@
 
 <body>
     <div class="container">
-        <div id="redmine">
-            {{> support}}
-            {{> supportHistory}}
-        </div>
+        {{> support}}
+        {{> supportHistory}}
         {{> builds}}
     </div>
+    {{> connectivity }}
 </body>
 
 <template name="support">
@@ -61,11 +60,20 @@
 </template>
 
 <template name="project">
-<div class="project {{status}}">
-    <div class="inner">
-        <span class="staging">&nbsp;{{staging}}</span>
-        <span class="production">&nbsp;{{production}}</span>
-        <span class="displayName">{{displayName}}</span>
+    <div class="project {{status}}">
+        <div class="inner">
+            <span class="staging">&nbsp;{{staging}}</span>
+            <span class="production">&nbsp;{{production}}</span>
+            <span class="displayName">{{displayName}}</span>
+        </div>
     </div>
-</div>
+</template>
+
+<template name="connectivity">
+    <div id="connectivity">
+        Status: <span class="{{status}}">{{status}}</span>
+        {{#if reconnectTime}}
+        <span class="reconnect">Tried reconnecting <span>{{reconnectCount}}</span> times. Next attempt at <span>{{reconnectTime}}</span>.</span>
+        {{/if}}
+    </div>
 </template>

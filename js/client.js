@@ -30,6 +30,24 @@ if (Meteor.is_client) {
         return Projects.find({}, {sort: {status: 1, displayName: 1}});
     };
 
+    // Load connectivity
+    Template.connectivity.status = function() {
+        return Meteor.status().status;
+    };
+    Template.connectivity.reconnectTime = function() {
+        if (Meteor.status().retry_time !== undefined) {
+            var date = new Date(Meteor.status().retry_time);
+            var hours = date.getHours();
+            var minutes = date.getMinutes();
+            var seconds = date.getSeconds();
+            return ((hours < 10) ? '0' : '') + hours + ((minutes < 10) ? ':0' : ':') + minutes + ((seconds < 10) ? ':0' : ':') + seconds;
+        }
+        return false;
+    };
+    Template.connectivity.reconnectCount = function() {
+        return Meteor.status().retry_count;
+    };
+
     // Setup click events
     Template.builds.events = {
         'click #add-project': Board.create
