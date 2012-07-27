@@ -22,7 +22,7 @@ if (Meteor.is_client) {
     Template.support.newIssues = function () {
         var since = new Date();
         since.setDate(since.getDate() - 3);
-        return Issues.find({priority: {$nin: [5, 6]}, time: {$gt: since}}, {sort: {time: -1}});
+        return Issues.find({priority: {$nin: [5, 6]}, time: {$gt: since}}, {sort: {time: -1}}).fetch().slice(0, 10);
     };
 
     // Load projects
