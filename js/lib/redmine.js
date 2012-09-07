@@ -4,11 +4,18 @@ var Redmine = {
     url: '',
     auth: '',
 
+    // Retrieved issues
+    retrievedIds: [],
+
     // Update issues
-    updateIssues: function() {
+    updateIssues: function(offset) {
+        // Set the offset
+        offset = typeof offset !== 'undefined' ? offset : 0;
+        var limit = 100;
+
         // Fetch all issues that should be displayed
         Meteor.http.get(
-            Redmine.url + '/issues.json?' + Redmine.filter,
+            Redmine.url + '/issues.json?limit=' + limit + '&offset=' + offset + Redmine.filter,
             {auth: Redmine.auth},
             function (error, result) {
                 var data = Redmine.parseResponseData(result);
@@ -16,10 +23,8 @@ var Redmine = {
                     return;
                 }
 
-                // Retrieved issue IDs
-                var retrievedIds = [];
-
                 // Update issues in database
+                var issuesCount = 0;
                 for (var i in data.issues) {
                     // Construct the issue data object
                     var issueObject = {
@@ -42,17 +47,33 @@ var Redmine = {
                         Issues.insert(issueObject);
                     }
 
+                    // Increment count
+                    issuesCount = issuesCount + 1;
+
                     // Keep track of the retrieved issues
-                    retrievedIds.push(issueObject.id);
+                    Redmine.retrievedIds.push(issueObject.id);
                 }
 
-                // If there are any issues in the database that we
-                // haven't retrieved, they can be consider resolved.
-                // Remove them.
-                Issues.remove({id: {$nin: retrievedIds}});
+                // If the amount of issues we retrieved is lower than limit, we've fetched them all.
+                // Update the counts and clear the state.
+                if (issuesCount < limit) {
+                    // If there are any issues in the database that we
+                    // haven't retrieved, they can be consider resolved.
+                    // Remove them.
+                    Issues.remove({id: {$nin: Redmine.retrievedIds}});
 
-                // Update the counts
-                Redmine.updateIssueCounts();
+                    // Clear state
+                    Redmine.retrievedIds = [];
+
+                    // Update the counts
+                    Redmine.updateIssueCounts();
+                }
+
+                // If the amount is equal or higher than limit, call this method again with a higher
+                // offset
+                if (issuesCount >= limit) {
+                    Redmine.updateIssues(offset + limit);
+                }
             }
         );
     },
