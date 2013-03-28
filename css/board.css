@@ -131,6 +131,53 @@ body {
     border-radius: 0.2em;
 }
 
+#version-info {
+    padding: 2px;
+}
+
+#version-info .inner {
+    font-size: 2.5em;
+    padding: 0.9em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#version-info .status-info {
+    width: 40%;
+    float: left;
+}
+
+#version-info .importance-info {
+    width: 60%;
+    float: left;
+}
+
+#version-info .importance-info .inner {
+    height: 300px;
+    vertical-align: middle;
+}
+
+#version .inner {
+    font-size: 1em;
+    padding: 0.3em 0.5em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 0 #888;
+    background-image: -webkit-linear-gradient(bottom, rgb(26,26,26) 45%, rgb(33,33,33) 42%);
+    border: 1px solid #353A3B;
+    border-radius: 0.2em;
+}
+
+#version .importance {
+    margin: 25px 0 25px 0;
+}
+
+#version .importance .label {
+    padding: 0 0 15px 0;
+}
+
 #builds .project {
     float: left;
     width: 50%;

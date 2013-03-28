@@ -1,5 +1,6 @@
 // Board functionality
 var Board = {
+
     // Update project statuses
     updateProjectStatuses: function() {
         var projects = Projects.find();
@@ -44,6 +45,21 @@ var Board = {
         var version = prompt('Specify the production version deployed.', oldVersion);
         if (version !== null) {
             Projects.update({_id: this._id}, {$set: {production: version}});
+        }
+    },
+
+    // Prompt for a new staging version
+    editCurrentVersion: function() {
+        var version = prompt('What is the current version in Development?', Redmine.getCurrentVersion());
+        if (version !== null) {
+            Session.set('currentVersion', version);
+
+            var currentVersion = CurrentVersionName.findOne({});
+            if (currentVersion == undefined) {
+                CurrentVersionName.insert({version: version});
+            } else {
+                CurrentVersionName.update({_id: currentVersion._id}, {$set: {version: version} });
+            }
         }
     }
 };

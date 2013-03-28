@@ -7,8 +7,21 @@ var Redmine = {
     // Retrieved issues
     retrievedIds: [],
 
-    // Update issues
+    // Update Issue collections
     updateIssues: function(offset) {
+
+        Redmine.updateCurrentVersion();
+
+        Redmine.updateOverallIssues(offset);
+
+        if (Redmine.getCurrentVersion() !== '') {
+            Redmine.updateVersionIssues(Redmine.getCurrentVersion());
+        }
+
+    },
+
+    // Update issues
+    updateOverallIssues: function(offset) {
         // Set the offset
         offset = typeof offset !== 'undefined' ? offset : 0;
         var limit = 100;
@@ -36,7 +49,10 @@ var Redmine = {
                         priority: data.issues[i].priority.id,
                         priorityClass: data.issues[i].priority.name.toLowerCase(),
                         time: new Date(data.issues[i].created_on),
-                        displayTime: Redmine.createRelativeDateString(data.issues[i].created_on)
+                        displayTime: Redmine.createRelativeDateString(data.issues[i].created_on),
+                        importance: data.issues[i].importance,
+                        custom_fields: data.issues[i].custom_fields,
+                        fixed_version: data.issues[i].fixed_version
                     };
 
                     // See if this issue exists already
@@ -78,6 +94,59 @@ var Redmine = {
         );
     },
 
+    // Update issues for current version
+    updateVersionIssues: function(version_id) {
+
+        // Fetch all issues that should be displayed
+        Meteor.http.get(
+            Redmine.url + '/issues.json?status_id=*&project_id=caas&fixed_version_id=' + version_id,
+            {auth: Redmine.auth},
+            function (error, result) {
+                var data = Redmine.parseResponseData(result);
+                if (data === false) {
+                    return;
+                }
+
+                VersionIssues.remove({});
+
+                // Update issues in database
+                var issuesCount = 0;
+                for (var i in data.issues) {
+                    // Construct the issue data object
+                    var issueObject = {
+                        id: data.issues[i].id,
+                        title: data.issues[i].subject,
+                        project: data.issues[i].project.name,
+                        author: data.issues[i].author.name,
+                        assignee: (data.issues[i].assigned_to !== undefined) ? data.issues[i].assigned_to.name : '',
+                        priority: data.issues[i].priority.id,
+                        priorityClass: data.issues[i].priority.name.toLowerCase(),
+                        time: new Date(data.issues[i].created_on),
+                        displayTime: Redmine.createRelativeDateString(data.issues[i].created_on),
+                        custom_fields: data.issues[i].custom_fields,
+                        fixed_version: data.issues[i].fixed_version,
+                        statusId: data.issues[i].status.id
+                    };
+
+                    _.each(data.issues[i].custom_fields, function(cf) {
+                        var name = String(cf.name).toLowerCase();
+                        issueObject[name] = cf.value;
+                    });
+
+                    // See if this issue exists already
+                    var issue = VersionIssues.findOne({id: issueObject.id});
+                    if (issue !== undefined) {
+                        VersionIssues.update({id:issueObject.id}, issueObject);
+                    } else {
+                        VersionIssues.insert(issueObject);
+                    }
+                }
+
+                Redmine.updateVersionIssueCounts();
+            }
+        );
+    },
+
     // Update issue counts
     updateIssueCounts: function() {
         // Construct the counts object
@@ -106,6 +175,48 @@ var Redmine = {
             }
             i++;
         });
+    },
+
+    // Update issue counts
+    updateVersionIssueCounts: function() {
+        // Construct the counts object
+        var counts = {
+            status: {
+                new:         VersionIssues.find({statusId: 1}).count(),
+                pending:     VersionIssues.find({statusId: 7}).count(),
+                in_progress: VersionIssues.find({statusId: 2}).count(),
+                feedback:    VersionIssues.find({statusId: { $in: [ 3, 4 ] }}).count(),
+                closed:      VersionIssues.find({statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}).count()
+            },
+            importance: {
+                "nice to have": {
+                    total: VersionIssues.find({importance: "nice to have" }).count(),
+                    closed: VersionIssues.find({ $and: [{importance: "nice to have"}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
+                },
+                "must have": {
+                    total: VersionIssues.find({importance: "must have" }).count(),
+                    closed: VersionIssues.find({ $and: [{importance: "must have"}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
+                },
+                "should have": {
+                    total: VersionIssues.find({importance: "should have" }).count(),
+                    closed: VersionIssues.find({ $and: [{importance: "should have"}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
+                },
+                "other": {
+                    total: VersionIssues.find({importance: {$nin: [ "nice to have", "must have", "should have"  ]} }).count(),
+                    closed: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]} }, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
+                }
+            }
+
+        };
+
+        var issue = IssuesCountVersion.findOne({});
+        if (issue !== undefined) {
+            IssuesCountVersion.update({}, counts);
+        } else {
+            IssuesCountVersion.insert(counts);
+        }
+
+        console.log(IssuesCountVersion.findOne({}));
     },
 
     // Parse response JSON data
@@ -152,5 +263,59 @@ var Redmine = {
         }
 
         return "less than a minute ago";
+    },
+
+    updateCurrentVersion: function() {
+
+        var currentVersionName    = CurrentVersionName.findOne({});
+        var currentVersionIntance = CurrentVersion.findOne({});
+
+        console.log(currentVersionName.version + '>>' + currentVersionIntance.name);
+        if (currentVersionName.version == currentVersionIntance.name) {
+            return;
+        }
+
+        // Different Versions, reload data.
+        Meteor.http.get(
+            Redmine.url + '/projects/caas/versions.json',
+            {auth: Redmine.auth},
+            function (error, result) {
+                var data = Redmine.parseResponseData(result);
+                if (data === false) {
+                    return;
+                }
+
+                _.each(data.versions, function (version) {
+
+                    if (version.name !== currentVersionName.version) {
+                        return;
+                    }
+
+                    var versionObject = {
+                        id: version.id,
+                        name: version.name,
+                        dueDate: version.due_date
+                    };
+
+                    console.log(versionObject);
+                    CurrentVersion.remove({});
+                    CurrentVersion.insert(versionObject);
+
+                    Redmine.updateVersionIssues(version.id);
+                });
+            }
+        );
+    },
+
+    getCurrentVersion: function() {
+
+        var version = CurrentVersion.findOne({});
+
+        if (version == undefined) {
+            return '';
+        }
+
+        return version.name;
+
     }
 };

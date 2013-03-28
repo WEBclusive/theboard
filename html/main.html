@@ -5,12 +5,50 @@
 
 <body>
     <div class="container">
+        {{> version}}
         {{> support}}
         {{> supportHistory}}
         {{> builds}}
     </div>
     {{> connectivity }}
 </body>
+
+<template name="version">
+    <div id="version">
+        <div class="inner">
+            <span class="bar">Current version: {{ currentVersion }}</span>
+        </div>
+        <div id="version-info">
+            {{> statusInfo }}
+            {{> importanceInfo }}
+        </div>
+    </div>
+</template>
+
+<template name="statusInfo">
+    <div class="status-info">
+        <div class="inner">
+            <div id="status-chart"></div>
+        </div>
+    </div>
+</template>
+
+<template name="importanceInfo">
+    <div class="importance-info">
+        <div class="inner">
+
+            {{#each importance}}
+            <div class="importance">
+                <span class="label">{{ name }} ({{ closed }} of {{ total }} merged)</span>
+                <div class="meter blue">
+                    <span style="width: {{ percentage }}%"></span>
+                </div>
+            </div>
+            {{/each}}
+
+        </div>
+    </div>
+</template>
 
 <template name="support">
     <div id="support">
