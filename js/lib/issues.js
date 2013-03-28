@@ -10,21 +10,8 @@ var VersionIssues = new Meteor.Collection("versionIssues");
 // Version Issues Count Collection
 var IssuesCountVersion = new Meteor.Collection("issuesCountVersion");
 
-// Stores current version
-var CurrentVersion = new Meteor.Collection("currentVersion");
+// Project Versions
+var ProjectVersions = new Meteor.Collection("projectVersions");
 
-var CurrentVersionName = new Meteor.Collection("currentVersionName");
-
-CurrentVersionName.allow({
-    insert: function (userId, doc) {
-        return true;
-    },
-    update: function (userId, doc, fields, modifier) {
-        return true;
-    },
-    remove: function (userId, doc) {
-        return true;
-    }
-});
-
-
+// Holds current State Vars
+var CurrentState = new Meteor.Collection("currentState");

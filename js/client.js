@@ -1,5 +1,6 @@
 // Initialize client side
 if (Meteor.is_client) {
+
     // Load issues
     Template.support.count = function () {
         return Issues.find().count();
@@ -24,8 +25,15 @@ if (Meteor.is_client) {
         since.setDate(since.getDate() - 3);
         return Issues.find({priority: {$nin: [5, 6]}, time: {$gt: since}}, {sort: {time: -1}}).fetch().slice(0, 10);
     };
-    Template.version.currentVersion = function () {
-        return Redmine.getCurrentVersion();
+    Template.versionBar.currentVersion = function () {
+
+        var versionName = CurrentState.findOne({name: "dev-version"});
+
+        if (versionName == undefined){
+            return 'undefined';
+        }
+
+        return versionName.value;
     };
 
     // Load projects
@@ -110,13 +118,8 @@ if (Meteor.is_client) {
         return importance;
     };
 
+
     // Initialize chart
     Meteor.startup(Chart.setup);
     Meteor.startup(StatusChart.setup);
-
-//    Deps.autorun(function () {
-//        Meteor.subscribe("current-version", {version: Session.get("currentVersion")});
-//    });
-
-
 }

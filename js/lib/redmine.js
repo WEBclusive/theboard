@@ -9,15 +9,8 @@ var Redmine = {
 
     // Update Issue collections
     updateIssues: function(offset) {
-
-        Redmine.updateCurrentVersion();
-
         Redmine.updateOverallIssues(offset);
-
-        if (Redmine.getCurrentVersion() !== '') {
-            Redmine.updateVersionIssues(Redmine.getCurrentVersion());
-        }
-
+        Redmine.updateVersionIssues();
     },
 
     // Update issues
@@ -95,11 +88,17 @@ var Redmine = {
     },
 
     // Update issues for current version
-    updateVersionIssues: function(version_id) {
+    updateVersionIssues: function() {
+
+        var versionInfo = Redmine.getCurrentVersionInfo();
+
+        if (versionInfo.name == undefined) {
+            return;
+        }
 
         // Fetch all issues that should be displayed
         Meteor.http.get(
-            Redmine.url + '/issues.json?status_id=*&project_id=caas&fixed_version_id=' + version_id,
+            Redmine.url + '/issues.json?status_id=*&project_id=caas&fixed_version_id=' + versionInfo.id,
             {auth: Redmine.auth},
             function (error, result) {
                 var data = Redmine.parseResponseData(result);
@@ -215,8 +214,6 @@ var Redmine = {
         } else {
             IssuesCountVersion.insert(counts);
         }
-
-        console.log(IssuesCountVersion.findOne({}));
     },
 
     // Parse response JSON data
@@ -265,17 +262,8 @@ var Redmine = {
         return "less than a minute ago";
     },
 
-    updateCurrentVersion: function() {
+    loadProjectVersions: function() {
 
-        var currentVersionName    = CurrentVersionName.findOne({});
-        var currentVersionIntance = CurrentVersion.findOne({});
-
-        console.log(currentVersionName.version + '>>' + currentVersionIntance.name);
-        if (currentVersionName.version == currentVersionIntance.name) {
-            return;
-        }
-
-        // Different Versions, reload data.
         Meteor.http.get(
             Redmine.url + '/projects/caas/versions.json',
             {auth: Redmine.auth},
@@ -287,35 +275,54 @@ var Redmine = {
 
                 _.each(data.versions, function (version) {
 
-                    if (version.name !== currentVersionName.version) {
-                        return;
-                    }
-
                     var versionObject = {
                         id: version.id,
                         name: version.name,
                         dueDate: version.due_date
                     };
 
-                    console.log(versionObject);
-                    CurrentVersion.remove({});
-                    CurrentVersion.insert(versionObject);
+                    // Update or Insert
+                    if (ProjectVersions.findOne({id: versionObject.id}) !== undefined) {
+                        ProjectVersions.update({id:versionObject.id}, versionObject);
+                    } else {
+                        ProjectVersions.insert(versionObject);
+                    }
 
-                    Redmine.updateVersionIssues(version.id);
                 });
             }
         );
     },
 
-    getCurrentVersion: function() {
+    getCurrentVersionInfo: function() {
 
-        var version = CurrentVersion.findOne({});
+        var blankVersion = {id: '', name: 'undefined', dueDate: ''};
 
-        if (version == undefined) {
-            return '';
+        var versionName = CurrentState.findOne({name: "dev-version"});
+
+        if (versionName == undefined){
+            return undefined;
         }
 
-        return version.name;
+        var versionInfo = ProjectVersions.findOne({name: versionName.value});
+
+        if (versionInfo == undefined){
+            return undefined;
+        }
+
+        return versionInfo;
 
     }
 };
+
+Meteor.methods({
+    setVersion: function (version) {
+
+        if (CurrentState.findOne({name: "dev-version"}) == undefined) {
+            CurrentState.insert({ name: "dev-version", value: version });
+        } else {
+            CurrentState.update({ name: "dev-version" }, { $set: { value: version }});
+        }
+
+        Redmine.updateVersionIssues();
+    }
+});

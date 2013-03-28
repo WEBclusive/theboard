@@ -55,9 +55,6 @@ var StatusChart = {
 
         var issueCount = IssuesCountVersion.findOne({});
 
-        console.log(issueCount);
-        console.log(StatusChart);
-
         if (issueCount ==  undefined) {
             return;
         }
@@ -67,7 +64,6 @@ var StatusChart = {
             data.push([index, element]);
         });
 
-        console.log(data);
         StatusChart.container.series[0].setData(data);
     }
 };

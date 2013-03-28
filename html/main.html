@@ -15,13 +15,17 @@
 
 <template name="version">
     <div id="version">
-        <div class="inner">
-            <span class="bar">Current version: {{ currentVersion }}</span>
-        </div>
+        {{> versionBar }}
         <div id="version-info">
             {{> statusInfo }}
             {{> importanceInfo }}
         </div>
+    </div>
+</template>
+
+<template name="versionBar">
+    <div class="inner">
+        <span class="bar">Current version: {{ currentVersion }}</span>
     </div>
 </template>
 
