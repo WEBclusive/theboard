@@ -43,8 +43,9 @@
 
             {{#each importance}}
             <div class="importance">
-                <span class="label">{{ name }} ({{ closed }} of {{ total }} merged)</span>
-                <div class="meter blue">
+                <span class="label">{{ name }}</span>
+                <span class="totals"><strong>{{ closed }}</strong> of <strong>{{ total }}</strong> merged</span>
+                <div class="meter blue nostripes">
                     <span style="width: {{ percentage }}%"></span>
                 </div>
             </div>

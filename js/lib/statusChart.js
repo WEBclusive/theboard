@@ -11,7 +11,7 @@ var StatusChart = {
             animation: false,
             backgroundColor: null,
             borderRadius: 0,
-            height: 300
+            height: 350
         },
         plotOptions: {
             pie: {

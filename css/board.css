@@ -156,12 +156,12 @@ body {
 }
 
 #version-info .importance-info .inner {
-    height: 300px;
+    height: 350px;
     vertical-align: middle;
 }
 
 #version .inner {
-    font-size: 1em;
+    font-size: 1.5em;
     padding: 0.3em 0.5em;
     text-transform: uppercase;
     text-shadow: 0 1px 0 #888;
@@ -176,6 +176,15 @@ body {
 
 #version .importance .label {
     padding: 0 0 15px 0;
+}
+
+#version .importance .totals {
+    float:right;
+    font-size: 0.7em;
+}
+
+#version .importance .totals strong {
+    font-size: 1.5em;
 }
 
 #builds .project {
