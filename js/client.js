@@ -33,7 +33,13 @@ if (Meteor.is_client) {
             return 'undefined';
         }
 
-        return versionName.value;
+        var versionInfo = ProjectVersions.findOne({name: { $regex: '.*'+versionName.value+'.*', $options: 'i' }});
+
+        if (versionInfo == undefined){
+            return 'undefined';
+        }
+
+        return versionInfo.name;
     };
 
     // Load projects

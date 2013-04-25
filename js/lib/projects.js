@@ -1,5 +1,5 @@
 // Projects collection
-var Projects = new Meteor.Collection("projects");
+Projects = new Meteor.Collection("projects");
 
 Projects.allow({
     insert: function (userId, doc) {

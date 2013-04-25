@@ -1,5 +1,5 @@
 // Chart object
-var Chart = {
+Chart = {
     // Chart container
     container: null,
 

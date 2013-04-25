@@ -1,5 +1,5 @@
 // Jenkins model
-var Jenkins = {
+Jenkins = {
     // The URL without a traling slash
     url: '',
 

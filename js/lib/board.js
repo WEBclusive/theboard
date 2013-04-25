@@ -1,5 +1,5 @@
 // Board functionality
-var Board = {
+Board = {
 
     // Update project statuses
     updateProjectStatuses: function() {

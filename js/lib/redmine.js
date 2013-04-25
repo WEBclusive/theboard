@@ -1,5 +1,5 @@
 // Redmine synchronizer
-var Redmine = {
+Redmine = {
     // The URL without a trailing slash and credentials
     url: '',
     auth: '',
@@ -303,7 +303,7 @@ var Redmine = {
             return undefined;
         }
 
-        var versionInfo = ProjectVersions.findOne({name: versionName.value});
+        var versionInfo = ProjectVersions.findOne({name: { $regex: '.*'+versionName.value+'.*', $options: 'i' }});
 
         if (versionInfo == undefined){
             return undefined;
