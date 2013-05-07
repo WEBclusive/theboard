@@ -80,6 +80,17 @@ if (Meteor.is_client) {
 
     // Version count
     Template.importanceInfo.importance = function () {
+        return Parser.parseImportanceData();
+    };
+
+
+    // Initialize chart
+    Meteor.startup(Chart.setup);
+    Meteor.startup(StatusChart.setup);
+}
+
+Parser = {
+    parseImportanceData: function () {
         var issueCount = IssuesCountVersion.findOne({});
         var mh, sh, nh, ot;
         var importance = [];
@@ -88,44 +99,48 @@ if (Meteor.is_client) {
             return importance;
         }
 
-        mustHave   = issueCount.importance['must have'];
-        shouldHave = issueCount.importance['should have'];
-        niceHave   = issueCount.importance['nice to have'];
-        other      = issueCount.importance['other'];
+        var mustHave   = issueCount.importance['must have'];
+        var shouldHave = issueCount.importance['should have'];
+        var niceHave   = issueCount.importance['nice to have'];
+        var other      = issueCount.importance['other'];
 
-        importance.push({
-            name: "Must Have",
-            total: mustHave.total,
-            closed: mustHave.closed,
-            percentage: (mustHave.closed * 100) / mustHave.total
-        });
+        importance.push(Parser.parseImportanceNumbers(mustHave, "Must Have"));
+        importance.push(Parser.parseImportanceNumbers(shouldHave, "Should Have"));
+        importance.push(Parser.parseImportanceNumbers(niceHave, "Nice to Have"));
+        importance.push(Parser.parseImportanceNumbers(other, "Other"));
 
-        importance.push({
-            name: "Should Have",
-            total: shouldHave.total,
-            closed: shouldHave.closed,
-            percentage: (shouldHave.closed * 100) / shouldHave.total
-        });
-
-        importance.push({
-            name: "Nice to Have",
-            total: niceHave.total,
-            closed: niceHave.closed,
-            percentage: (niceHave.closed * 100) / niceHave.total
-        });
-
-        importance.push({
-            name: "Other",
-            total: other.total,
-            closed: other.closed,
-            percentage: (other.closed * 100) / other.total
-        });
-
+        console.log(importance);
         return importance;
-    };
+    },
 
+    parseImportanceNumbers: function (importanceData, name) {
 
-    // Initialize chart
-    Meteor.startup(Chart.setup);
-    Meteor.startup(StatusChart.setup);
-}
+        return {
+            name: name,
+            total: importanceData.total,
+
+            new: importanceData.new,
+            percentage_new: Parser.calculatePercentage(importanceData.new, importanceData.total),
+
+            pending: importanceData.pending,
+            percentage_pending: Parser.calculatePercentage(importanceData.pending, importanceData.total),
+
+            in_progress: importanceData.in_progress,
+            percentage_in_progress: Parser.calculatePercentage(importanceData.in_progress, importanceData.total),
+
+            feedback: importanceData.feedback,
+            percentage_feedback: Parser.calculatePercentage(importanceData.feedback, importanceData.total),
+
+            closed: importanceData.closed,
+            percentage_closed: Parser.calculatePercentage(importanceData.closed, importanceData.total)
+        }
+
+    },
+
+    calculatePercentage: function (value, total) {
+
+        if (value == 0) return false;
+
+        return (value * 100) / total
+    }
+};

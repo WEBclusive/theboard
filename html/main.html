@@ -45,8 +45,11 @@
             <div class="importance">
                 <span class="label">{{ name }}</span>
                 <span class="totals"><strong>{{ closed }}</strong> of <strong>{{ total }}</strong> merged</span>
-                <div class="meter blue nostripes">
-                    <span style="width: {{ percentage }}%"></span>
+                <div class="bar-container">
+                    {{#if percentage_closed}}<span class="bar closed" style="width: {{ percentage_closed }}%"></span>{{/if}}
+                    {{#if percentage_pending}}<span class="bar pending" style="width: {{ percentage_pending }}%"></span>{{/if}}
+                    {{#if percentage_feedback}}<span class="bar feedback" style="width: {{ percentage_feedback }}%"></span>{{/if}}
+                    {{#if percentage_in_progress}}<span class="bar in_progress" style="width: {{ percentage_in_progress }}%"></span>{{/if}}
                 </div>
             </div>
             {{/each}}

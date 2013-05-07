@@ -188,21 +188,16 @@ Redmine = {
                 closed:      VersionIssues.find({statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}).count()
             },
             importance: {
-                "nice to have": {
-                    total: VersionIssues.find({importance: "nice to have" }).count(),
-                    closed: VersionIssues.find({ $and: [{importance: "nice to have"}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
-                },
-                "must have": {
-                    total: VersionIssues.find({importance: "must have" }).count(),
-                    closed: VersionIssues.find({ $and: [{importance: "must have"}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
-                },
-                "should have": {
-                    total: VersionIssues.find({importance: "should have" }).count(),
-                    closed: VersionIssues.find({ $and: [{importance: "should have"}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
-                },
+                "nice to have": Redmine.getCountByImportance("nice to have", VersionIssues),
+                "must have": Redmine.getCountByImportance("must have", VersionIssues),
+                "should have": Redmine.getCountByImportance("should have", VersionIssues),
                 "other": {
                     total: VersionIssues.find({importance: {$nin: [ "nice to have", "must have", "should have"  ]} }).count(),
-                    closed: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]} }, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
+                    new: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]}}, {statusId: { $in: [ 1 ] }}] }).count(),
+                    pending: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]}}, {statusId: { $in: [ 7 ] }}] }).count(),
+                    in_progress: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]}}, {statusId: { $in: [ 2 ] }}] }).count(),
+                    feedback: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]}}, {statusId: { $in: [ 3, 4 ] }}] }).count(),
+                    closed: VersionIssues.find({ $and: [{importance: {$nin: ["nice to have", "must have", "should have"]}}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
                 }
             }
 
@@ -214,6 +209,18 @@ Redmine = {
         } else {
             IssuesCountVersion.insert(counts);
         }
+    },
+
+    getCountByImportance: function (importanceValue, VersionIssues) {
+
+        return {
+            total: VersionIssues.find({importance: importanceValue }).count(),
+            new: VersionIssues.find({ $and: [{importance: importanceValue}, {statusId: { $in: [ 1 ] }}] }).count(),
+            pending: VersionIssues.find({ $and: [{importance: importanceValue}, {statusId: { $in: [ 7 ] }}] }).count(),
+            in_progress: VersionIssues.find({ $and: [{importance: importanceValue}, {statusId: { $in: [ 2 ] }}] }).count(),
+            feedback: VersionIssues.find({ $and: [{importance: importanceValue}, {statusId: { $in: [ 3, 4 ] }}] }).count(),
+            closed: VersionIssues.find({ $and: [{importance: importanceValue}, {statusId: { $in: [ 15, 5, 6, 8, 9, 14 ] }}] }).count()
+        };
     },
 
     // Parse response JSON data
